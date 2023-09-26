@@ -43,7 +43,7 @@ class App extends Component {
 
   componentDidMount() {
     const savedContacts = localStorage.getItem(LS_KEY);
-    const parsedContacts = JSON.parse(savedContacts);
+    const parsedContacts = JSON.parse(savedContacts) ?? [];
     this.setState({ contacts: parsedContacts });
   }
 
