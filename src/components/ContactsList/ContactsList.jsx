@@ -47,6 +47,7 @@ class ContactsList extends Component {
               </label>
             ))}
         </List>
+
         <ButtonWrapper>
           <DeleteButton
             type="button"

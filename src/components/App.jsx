@@ -4,14 +4,10 @@ import Filter from 'components/Filter/Filter';
 import ContactsList from 'components/ContactsList/ContactsList';
 import { Container, Headline, Title } from './App.styled';
 
+const LS_KEY = 'contacts';
 class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
   };
 
@@ -45,18 +41,41 @@ class App extends Component {
     });
   };
 
+  componentDidMount() {
+    const savedContacts = localStorage.getItem(LS_KEY);
+    const parsedContacts = JSON.parse(savedContacts);
+    this.setState({ contacts: parsedContacts });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts.length !== contacts.length) {
+      const stringifiedContacts = JSON.stringify(contacts);
+      localStorage.setItem(LS_KEY, stringifiedContacts);
+    }
+  }
+
   render() {
     return (
       <Container>
         <Headline>Phonebook</Headline>
         <ContactForm onSubmit={this.formSubmitData} />
-        <Title>Contacts</Title>
-        <Filter value={this.state.filter} onChange={this.filterInputNames} />
-        <ContactsList
-          contacts={this.state.contacts}
-          filter={this.state.filter}
-          deleteContacts={this.deleteContacts}
-        />
+        {this.state.contacts.length !== 0 ? (
+          <>
+            <Title>Contacts</Title>
+            <Filter
+              value={this.state.filter}
+              onChange={this.filterInputNames}
+            />
+            <ContactsList
+              contacts={this.state.contacts}
+              filter={this.state.filter}
+              deleteContacts={this.deleteContacts}
+            />
+          </>
+        ) : (
+          <Title>There is no contacts</Title>
+        )}
       </Container>
     );
   }
