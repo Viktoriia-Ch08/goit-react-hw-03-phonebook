@@ -74,7 +74,7 @@ class App extends Component {
             />
           </>
         ) : (
-          <Title>There is no contacts</Title>
+          <Title>There are no contacts</Title>
         )}
       </Container>
     );
