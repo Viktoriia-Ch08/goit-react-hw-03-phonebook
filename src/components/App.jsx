@@ -25,14 +25,6 @@ class App extends Component {
     });
   };
 
-  checkExistingContact = data => {
-    this.state.contacts.name === data.name
-      ? alert('This contact has already existed')
-      : this.setState({
-          contacts: [...this.state.contacts, data],
-        });
-  };
-
   deleteContacts = contactsToDelete => {
     this.setState({
       contacts: this.state.contacts.filter(
